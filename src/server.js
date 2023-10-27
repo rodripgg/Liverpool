@@ -6,7 +6,7 @@ import { setupDB } from "./config/db.config.js";
 
 // importar rutas
 import agendaRoutes from "./api/routes/agendaRoutes.js";
-import solicitudRoutes from "./api/routes/agendaRoutes.js";
+import solicitudRoutes from "./api/routes/solicitudRoutes.js";
 import usuarioRoutes from "./api/routes/usuarioRoutes.js";
 
 

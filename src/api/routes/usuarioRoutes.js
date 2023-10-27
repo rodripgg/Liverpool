@@ -1,5 +1,4 @@
 import { Router } from "express";
-
 //importar controlador
 import usuarioController from "../controllers/usuarioController.js";
 

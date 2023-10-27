@@ -23,62 +23,105 @@ const listarSolicitudes = async (req, res) => {
 // Función para crear una nueva solicitud
 const crearSolicitud = async (req, res) => {
 	try {
-		const nuevaSolicitud = new Solicitud(req.body);
-		const solicitud = await nuevaSolicitud.save();
-		res.status(201).json(solicitud);
+		const { solicitante, detalles, estado, archivosAdjuntos } = req.body;
+
+		const nuevaSolicitud = new Solicitud({
+			solicitante,
+			detalles,
+			estado,
+			archivosAdjuntos,
+		});
+
+		const solicitudGuardada = await nuevaSolicitud.save();
+
+		res.status(201).json(solicitudGuardada);
 	} catch (err) {
 		console.error("Error al crear una solicitud:", err);
-		return res
+		res
 			.status(500)
 			.json({ message: "Error al crear una solicitud", error: err.message });
 	}
-}
+};
 
-// // Función para buscar una solicitud por su ID
-// const buscarSolicitudPorID = (idDeSolicitud) => {
-// 	findById(idDeSolicitud, (err, solicitud) => {
-// 		if (err) {
-// 			console.error("Error al buscar una solicitud:", err);
-// 		} else {
-// 			console.log("Solicitud encontrada:", solicitud);
-// 		}
-// 	});
-// };
+// Función para actualizar una solicitud por su ID
+const actualizarSolicitudPorId = async (req, res) => {
+	try {
+		const solicitudId = req.params.id;
+		const updatedData = req.body;
 
-// // Función para actualizar una solicitud por su ID
-// const actualizarSolicitudPorID = (
-// 	idDeSolicitud,
-// 	nuevosDetalles,
-// 	nuevoEstado
-// ) => {
-// 	findByIdAndUpdate(
-// 		idDeSolicitud,
-// 		{ detalles: nuevosDetalles, estado: nuevoEstado },
-// 		(err, solicitud) => {
-// 			if (err) {
-// 				console.error("Error al actualizar una solicitud:", err);
-// 			} else {
-// 				console.log("Solicitud actualizada:", solicitud);
-// 			}
-// 		}
-// 	);
-// };
+		const solicitudActualizada = await Solicitud.findByIdAndUpdate(
+			solicitudId,
+			updatedData,
+			{
+				new: true,
+			}
+		);
 
-// // Función para eliminar una solicitud por su ID
-// const eliminarSolicitudPorID = (idDeSolicitud) => {
-// 	findByIdAndRemove(idDeSolicitud, (err, solicitud) => {
-// 		if (err) {
-// 			console.error("Error al eliminar una solicitud:", err);
-// 		} else {
-// 			console.log("Solicitud eliminada:", solicitud);
-// 		}
-// 	});
-// };
+		if (!solicitudActualizada) {
+			return res.status(404).json({ message: "Solicitud no encontrada" });
+		}
+		return res.status(200).json(solicitudActualizada);
+	} catch (err) {
+		console.error("Error al actualizar una solicitud por ID:", err);
+		res
+			.status(500)
+			.json({
+				message: "Error al actualizar una solicitud por ID",
+				error: err.message,
+			});
+	}
+};
+
+// Función para buscar una solicitud por su ID
+const buscarSolicitudPorId = async (req, res) => {
+	try {
+		const solicitudId = req.params.id; // Suponiendo que el ID se pasa como un parámetro en la URL
+
+		const solicitudEncontrada = await Solicitud.findById(solicitudId);
+
+		if (!solicitudEncontrada) {
+			return res.status(404).json({ message: "Solicitud no encontrada" });
+		}
+
+		res.status(200).json(solicitudEncontrada);
+	} catch (err) {
+		console.error("Error al buscar una solicitud por ID:", err);
+		res
+			.status(500)
+			.json({
+				message: "Error al buscar una solicitud por ID",
+				error: err.message,
+			});
+	}
+};
+
+// Función para eliminar una solicitud por su ID
+const eliminarSolicitudPorId = async (req, res) => {
+	try {
+		const solicitudId = req.params.id; // Suponiendo que el ID se pasa como un parámetro en la URL
+
+		const solicitudEncontrada = await Solicitud.findByIdAndDelete(solicitudId);
+
+		if (!solicitudEncontrada) {
+			return res.status(404).json({ message: "Solicitud no encontrada" });
+		}
+
+		res.status(200).json({ message: "Solicitud eliminada" });
+	} catch (err) {
+		console.error("Error al eliminar una solicitud por ID:", err);
+		res
+			.status(500)
+			.json({
+				message: "Error al eliminar una solicitud por ID",
+				error: err.message,
+			});
+	}
+};
 
 export default {
 	listarSolicitudes,
 	crearSolicitud,
-	// buscarSolicitudPorID,
-	// actualizarSolicitudPorID,
-	// eliminarSolicitudPorID,
+	buscarSolicitudPorId,
+	actualizarSolicitudPorId,
+	eliminarSolicitudPorId,
 };

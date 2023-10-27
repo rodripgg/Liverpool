@@ -14,7 +14,10 @@ const listarEntradasAgenda = async (req, res) => {
 		console.error("Error al listar las entradas de las agendas:", err);
 		return res
 			.status(500)
-			.json({ message: "Error al listar las entradas de las agendas:", error: err.message });
+			.json({
+				message: "Error al listar las entradas de las agendas:",
+				error: err.message,
+			});
 	}
 };
 
@@ -38,64 +41,85 @@ const crearEntradaAgenda = async (req, res) => {
 		res.status(201).json(entradaGuardada);
 	} catch (err) {
 		console.error("Error al crear una entrada en la agenda:", err);
-		res
-			.status(500)
-			.json({
-				message: "Error al crear una entrada en la agenda",
-				error: err.message,
-			});
+		res.status(500).json({
+			message: "Error al crear una entrada en la agenda",
+			error: err.message,
+		});
 	}
 };
 
-// // Buscar una entrada en la agenda por ID
-// const buscarEntradaAgendaPorId = (entradaId, callback) => {
-// 	findById(entradaId, (err, entrada) => {
-// 		if (err) {
-// 			console.error("Error al buscar una entrada en la agenda:", err);
-// 			callback(err, null);
-// 		} else {
-// 			console.log("Entrada de agenda encontrada:", entrada);
-// 			callback(null, entrada);
-// 		}
-// 	});
-// };
+// Buscar una entrada en la agenda por ID
+const buscarEntradaAgendaPorId = async (req, res) => {
+	try {
+		const entradaId = req.params.id;
+		const entrada = await Agenda.findById(entradaId);
+		if (!entrada) {
+			return res.status(404).json({ message: "No se encontró la entrada" });
+		}
+		return res.status(200).send(entrada);
+	} catch (err) {
+		console.error("Error al buscar una entrada en la agenda:", err);
+		return res.status(500).json({
+			message: "Error al buscar una entrada en la agenda",
+			error: err.message,
+		});
+	}
+};
 
-// // Actualizar una entrada en la agenda por ID
-// const actualizarEntradaAgendaPorId = (entradaId, actualizaciones, callback) => {
-// 	findByIdAndUpdate(
-// 		entradaId,
-// 		actualizaciones,
-// 		{ new: true },
-// 		(err, entrada) => {
-// 			if (err) {
-// 				console.error("Error al actualizar una entrada en la agenda:", err);
-// 				callback(err, null);
-// 			} else {
-// 				console.log("Entrada de agenda actualizada:", entrada);
-// 				callback(null, entrada);
-// 			}
-// 		}
-// 	);
-// };
+// Actualizar una entrada en la agenda por ID
+const actualizarEntradaAgendaPorId = async (req, res) => {
+	try {
+		const entradaId = req.params.id;
+		const updatedData = req.body;
 
-// // Eliminar una entrada en la agenda por ID
-// const eliminarEntradaAgendaPorId = (entradaId, callback) => {
-// 	findByIdAndRemove(entradaId, (err, entrada) => {
-// 		if (err) {
-// 			console.error("Error al eliminar una entrada en la agenda:", err);
-// 			callback(err, null);
-// 		} else {
-// 			console.log("Entrada de agenda eliminada:", entrada);
-// 			callback(null, entrada);
-// 		}
-// 	});
-// };
+		const entradaActualizada = await Agenda.findByIdAndUpdate(
+			entradaId,
+			updatedData,
+			{
+				new: true,
+			}
+		);
+
+		if (!entradaActualizada) {
+			return res.status(404).json({ message: "Entrada no encontrada" });
+		}
+		return res.status(200).json(entradaActualizada);
+
+	}catch (err) {
+		console.error("Error al actualizar una entrada en la agenda:", err);
+		res.status(500).json({
+			message: "Error al actualizar una entrada en la agenda",
+			error: err.message,
+		});
+	}};
+
+
+//	Eliminar una entrada en la agenda por ID
+const eliminarEntradaAgendaPorId = async (req, res) => {
+	try {
+		const entradaId = req.params.id;
+
+		const entradaEliminada = await Agenda.findByIdAndDelete(entradaId);
+
+		if (!entradaEliminada) {
+			return res.status(404).json({ message: "Entrada no encontrada" });
+		}
+
+		res.status(200).json({ message: "Entrada en la agenda eliminada" });
+	} catch (err) {
+		console.error("Error al eliminar una entrada en la agenda:", err);
+		res.status(500).json({
+			message: "Error al eliminar una entrada en la agenda",
+			error: err.message,
+		});
+	}
+};
 
 // Exporta las funciones CRUD de la agenda
 export default {
 	listarEntradasAgenda,
 	crearEntradaAgenda,
-	// buscarEntradaAgendaPorId,
-	// actualizarEntradaAgendaPorId,
-	// eliminarEntradaAgendaPorId,
+	buscarEntradaAgendaPorId,
+	actualizarEntradaAgendaPorId,
+	eliminarEntradaAgendaPorId,
 };
