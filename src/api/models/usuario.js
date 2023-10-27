@@ -1,7 +1,7 @@
-import { Schema as _Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 // Define un esquema para los usuarios
-const usuarioSchema = new _Schema(
+const usuarioSchema = new Schema(
 	{
 		nombre: String,
 		rut: String,
@@ -17,4 +17,4 @@ const usuarioSchema = new _Schema(
 );
 
 // Crea un modelo de usuario basado en el esquema
-const Usuario = model("Usuario", usuarioSchema);
+export default model("Usuario", usuarioSchema);

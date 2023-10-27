@@ -1,5 +1,5 @@
 import { Router } from "express";
-import solicitudController from "../controllers/solicitudController";
+import solicitudController from "../controllers/solicitudController.js";
 
 const router = Router();
 

@@ -10,7 +10,7 @@ import solicitudRoutes from "./api/routes/agendaRoutes.js";
 import usuarioRoutes from "./api/routes/usuarioRoutes.js";
 
 const app = express();
-const port = 4384;
+const port = 4385;
 
 //middleware
 app.use(json());

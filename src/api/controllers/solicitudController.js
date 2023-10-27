@@ -1,9 +1,6 @@
 // Importa el modelo de solicitud
-import Solicitud, {
-	findById,
-	findByIdAndUpdate,
-	findByIdAndRemove,
-} from "../models/solicitud.js";
+import Solicitud from "../models/solicitud.js";
+import Usuario from "../models/usuario.js";
 
 // Listar todas las solicitudes
 const listarSolicitudes = () => {
@@ -19,7 +16,8 @@ const listarSolicitudes = () => {
 // Función para crear una nueva solicitud
 const crearSolicitud = (solicitanteId, detalles, estado, archivosAdjuntos) => {
 	const nuevaSolicitud = new Solicitud({
-		solicitante, // ID del usuario solicitante
+		// Clave foránea a id del schema de usuario (ObjectId)
+		solicitante: solicitanteId,
 		detalles,
 		estado,
 		archivosAdjuntos,

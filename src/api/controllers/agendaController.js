@@ -1,9 +1,4 @@
-import Agenda, {
-	findById,
-	findByIdAndUpdate,
-	findByIdAndRemove,
-	find,
-} from "../models/agenda.js";
+import Agenda from "../models/agenda.js";
 
 // Listar todas las entradas en la agenda
 const listarEntradasAgenda = (callback) => {

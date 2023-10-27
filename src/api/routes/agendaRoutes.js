@@ -1,5 +1,5 @@
 import { Router } from "express";
-import agendaController from "../controllers/agendaController";
+import agendaController from "../controllers/agendaController.js";
 
 const router = Router();
 

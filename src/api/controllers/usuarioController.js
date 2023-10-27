@@ -1,9 +1,5 @@
 // Importar el modelo de usuarios
-import Usuario, {
-	findById,
-	findByIdAndUpdate,
-	findByIdAndRemove,
-} from "../models/usuario.js";
+import Usuario from "../models/usuario.js";
 
 // Función para listar todos los usuarios
 const listarUsuarios = () => {

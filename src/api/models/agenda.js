@@ -17,4 +17,4 @@ const agendaSchema = new Schema(
 );
 
 // Crea un modelo de agenda basado en el esquema
-const Agenda = model("Agenda", agendaSchema);
+export default model("Agenda", agendaSchema);
