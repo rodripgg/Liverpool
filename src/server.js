@@ -5,8 +5,8 @@ import express, { json } from "express";
 import { setupDB } from "./config/db.config.js";
 
 // importar rutas
-//import agendaRoutes from "./api/routes/agendaRoutes.js";
-//import solicitudRoutes from "./api/routes/agendaRoutes.js";
+import agendaRoutes from "./api/routes/agendaRoutes.js";
+import solicitudRoutes from "./api/routes/agendaRoutes.js";
 import usuarioRoutes from "./api/routes/usuarioRoutes.js";
 
 
@@ -17,8 +17,8 @@ const port = 3000;
 app.use(json());
 
 //rutas
-//app.use("/api/agenda", agendaRoutes);
-//app.use("/api/solicitud", solicitudRoutes);
+app.use("/api/agenda", agendaRoutes);
+app.use("/api/solicitud", solicitudRoutes);
 app.use("/api/usuario", usuarioRoutes);
 
 

@@ -1,4 +1,3 @@
-// Importar el modelo de usuarios
 import Usuario from "../models/usuario.js";
 
 // Función para listar todos los usuarios
