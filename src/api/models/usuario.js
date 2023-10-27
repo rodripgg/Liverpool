@@ -18,3 +18,4 @@ const usuarioSchema = new Schema(
 
 // Crea un modelo de usuario basado en el esquema
 export default model("Usuario", usuarioSchema);
+

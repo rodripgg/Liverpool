@@ -5,9 +5,6 @@ import dotenv from "dotenv";
 // Convierte la URL del archivo a una ruta de archivo
 const __filename = fileURLToPath(import.meta.url);
 
-// Obtiene el directorio del archivo actual
-const __dirname = path.dirname(__filename);
-
 // Obtiene la ruta del archivo .env
 const envFilePath = path.resolve(__filename);
 
@@ -17,4 +14,4 @@ dotenv.config({ envFilePath });
 // Retorna un objeto con las variables de entorno
 // o Tambien retornar las variables de entorno directamente
 
-export const { SALUDO, DB_URL } = process.env;
+export const { DB_URL } = process.env;
